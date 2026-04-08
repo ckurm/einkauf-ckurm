@@ -263,7 +263,7 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
     <div class="card-title">Budget</div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6">Setze ein wöchentliches Budget für deine Einkäufe.</p>
     <div class="input-row">
-      <input class="input-field" id="budget-input" type="number" inputmode="decimal" placeholder="z.B. 100" step="1" min="0"/>
+      <input class="input-field" id="budget-input" type="text" placeholder="z.B. 100" readonly onclick="openNumpadBudget()" style="cursor:pointer;font-family:'DM Mono',monospace"/>
       <button class="add-btn" onclick="saveBudget()" style="width:auto;padding:0 14px;font-size:13px;font-family:'DM Sans',sans-serif">Speichern</button>
     </div>
     <p class="hint">Budget wird auf der Liste als Fortschrittsbalken angezeigt</p>
@@ -346,7 +346,7 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
       <button onclick="npIn('7')" style="background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius);font-size:20px;font-family:'DM Mono',monospace;font-weight:500;color:var(--text);padding:13px 0;cursor:pointer">7</button>
       <button onclick="npIn('8')" style="background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius);font-size:20px;font-family:'DM Mono',monospace;font-weight:500;color:var(--text);padding:13px 0;cursor:pointer">8</button>
       <button onclick="npIn('9')" style="background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius);font-size:20px;font-family:'DM Mono',monospace;font-weight:500;color:var(--text);padding:13px 0;cursor:pointer">9</button>
-      <button onclick="npIn('.')" style="background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius);font-size:20px;font-family:'DM Mono',monospace;font-weight:500;color:var(--text2);padding:13px 0;cursor:pointer">.</button>
+      <button onclick="npIn(',')" style="background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius);font-size:20px;font-family:'DM Mono',monospace;font-weight:500;color:var(--text2);padding:13px 0;cursor:pointer">,</button>
       <button onclick="npIn('0')" style="background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius);font-size:20px;font-family:'DM Mono',monospace;font-weight:500;color:var(--text);padding:13px 0;cursor:pointer">0</button>
       <button onclick="npDel()" style="background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius);font-size:18px;color:var(--text2);padding:13px 0;cursor:pointer">&#9003;</button>
     </div>
@@ -428,19 +428,29 @@ function selCat(el, cat){
 
 // ── Numpad ────────────────────────────────────────────────────────────────────
 let npVal = '0';
+let npTarget = 'price'; // 'price' or 'budget'
+
 function openNumpad(){
+  npTarget = 'price';
   const cur = document.getElementById('inp-price').value;
-  npVal = cur && cur !== '0' ? cur : '0';
+  npVal = cur && cur !== '0' ? cur.replace('.',',') : '0';
+  document.getElementById('np-display').textContent = npVal;
+  document.getElementById('numpad-overlay').classList.add('show');
+}
+function openNumpadBudget(){
+  npTarget = 'budget';
+  const cur = document.getElementById('budget-input').value;
+  npVal = cur && cur !== '0' ? cur.replace('.',',') : '0';
   document.getElementById('np-display').textContent = npVal;
   document.getElementById('numpad-overlay').classList.add('show');
 }
 function closeNumpad(){ document.getElementById('numpad-overlay').classList.remove('show'); }
 function npIn(d){
-  if(d === '.' && npVal.includes('.')) return;
-  if(npVal === '0' && d !== '.') npVal = d;
+  if(d === ',' && npVal.includes(',')) return;
+  if(npVal === '0' && d !== ',') npVal = d;
   else npVal += d;
-  const parts = npVal.split('.');
-  if(parts[1] && parts[1].length > 2) return;
+  const parts = npVal.split(',');
+  if(parts[1] && parts[1].length > 2){ npVal = npVal.slice(0,-1); return; }
   document.getElementById('np-display').textContent = npVal;
 }
 function npDel(){
@@ -448,18 +458,24 @@ function npDel(){
   document.getElementById('np-display').textContent = npVal;
 }
 function npConfirm(){
-  const v = parseFloat(npVal) || 0;
-  document.getElementById('inp-price').value = v > 0 ? npVal : '';
+  const v = parseFloat(npVal.replace(',','.')) || 0;
+  if(npTarget === 'budget'){
+    document.getElementById('budget-input').value = v > 0 ? npVal.replace(',','.') : '';
+    closeNumpad();
+    return;
+  }
+  // price
+  document.getElementById('inp-price').value = v > 0 ? npVal.replace(',','.') : '';
   const disp = document.getElementById('inp-price-display');
   if(v > 0){
-    disp.textContent = npVal.replace('.',',') + ' €';
+    disp.textContent = npVal + ' €';
     disp.style.color = 'var(--green)';
   } else {
     disp.textContent = '0,00 €';
     disp.style.color = 'var(--text3)';
   }
   closeNumpad();
-  document.getElementById('inp-note').focus();
+  // No auto-focus
 }
 
 // ── Add Shopping Trip ─────────────────────────────────────────────────────────
@@ -719,7 +735,7 @@ function renderLog(){
 
 // ── Budget ────────────────────────────────────────────────────────────────────
 function saveBudget(){
-  budget = parseFloat(document.getElementById('budget-input').value) || 0;
+  budget = parseFloat((document.getElementById('budget-input').value||'0').replace(',','.')) || 0;
   localStorage.setItem('el_budget', budget);
   render();
   toast('Budget gespeichert ✓');
