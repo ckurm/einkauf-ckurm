@@ -88,10 +88,10 @@ header p{font-size:12px;color:var(--text2);margin-top:2px}
 .shop-section-label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.6px;margin:10px 0 6px;padding:0 2px}
 
 /* Total bar */
-.total-card{background:linear-gradient(135deg,rgba(74,222,128,0.15),rgba(96,165,250,0.08));border:0.5px solid rgba(74,222,128,0.25);border-radius:var(--radius);padding:14px 1.25rem;margin-bottom:10px}
+.total-card{background:linear-gradient(135deg,rgba(74,222,128,0.15),rgba(96,165,250,0.08));border:0.5px solid rgba(74,222,128,0.25);border-radius:var(--radius);padding:22px 1.25rem;margin-bottom:10px}
 .total-row{display:flex;justify-content:space-between;align-items:baseline}
 .total-label{font-size:13px;color:var(--text2)}
-.total-amount{font-family:'DM Mono',monospace;font-size:26px;font-weight:600;color:var(--green)}
+.total-amount{font-family:'DM Mono',monospace;font-size:40px;font-weight:700;color:var(--green)}
 .total-sub{font-size:11px;color:var(--text3);margin-top:4px}
 .total-progress{height:6px;background:var(--bg3);border-radius:3px;margin-top:10px;overflow:hidden;display:none}
 .total-progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#4ade80,#16a34a);transition:width .4s}
@@ -184,10 +184,6 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
     <div class="header-btns">
       <button class="hbtn" onclick="openSettings()" title="Einstellungen" id="settings-btn" style="transition:transform .4s">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      </button>
-      <button class="hbtn" onclick="toggleTheme()" title="Design" id="theme-btn">
-        <svg id="icon-sun" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg id="icon-moon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
       </button>
     </div>
   </div>
@@ -283,6 +279,15 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
     </div>
 
     <div class="card" style="margin-bottom:10px">
+      <div class="card-title">Wochenbudget</div>
+      <div class="input-row">
+        <input class="input-field" id="budget-input" type="text" placeholder="z.B. 100 €" readonly onclick="openNumpadBudget()" style="cursor:pointer;font-family:'DM Mono',monospace"/>
+        <button class="add-btn" onclick="saveBudget()" style="width:auto;padding:0 14px;font-size:13px;font-family:'DM Sans',sans-serif">OK</button>
+      </div>
+      <p class="hint">Erscheint als Fortschrittsbalken auf der Übersicht</p>
+    </div>
+
+    <div class="card" style="margin-bottom:10px">
       <div class="card-title">Darstellung</div>
       <div class="setting-row">
         <div>
@@ -294,15 +299,6 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
           <span class="toggle-slider"></span>
         </label>
       </div>
-    </div>
-
-    <div class="card" style="margin-bottom:10px">
-      <div class="card-title">Wochenbudget</div>
-      <div class="input-row">
-        <input class="input-field" id="budget-input" type="text" placeholder="z.B. 100 €" readonly onclick="openNumpadBudget()" style="cursor:pointer;font-family:'DM Mono',monospace"/>
-        <button class="add-btn" onclick="saveBudget()" style="width:auto;padding:0 14px;font-size:13px;font-family:'DM Sans',sans-serif">OK</button>
-      </div>
-      <p class="hint">Erscheint als Fortschrittsbalken auf der Übersicht</p>
     </div>
 
     <div class="card">
@@ -400,8 +396,7 @@ document.getElementById('inp-date').value = todayStr();
 function applyTheme(){
   document.body.classList.toggle('light',!darkMode);
   const td=document.getElementById('toggle-dark');if(td)td.checked=darkMode;
-  document.getElementById('icon-sun').style.display = darkMode ? 'block' : 'none';
-  document.getElementById('icon-moon').style.display = darkMode ? 'none' : 'block';
+
 }
 function openSettings(){document.getElementById('settings-overlay').classList.add('show');const td=document.getElementById('toggle-dark');if(td)td.checked=darkMode;}
 function closeSettings(){document.getElementById('settings-overlay').classList.remove('show');}
@@ -557,36 +552,21 @@ function render(){
   // Recent entries list – only last 2
   const list = document.getElementById('shop-list');
   if(!history.length){
-    list.innerHTML = '<div class="empty">&#128722; Noch keine Einkäufe<br>Oben ersten Einkauf eintragen</div>';
+    list.innerHTML = '<div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden">'
+      + '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px">'
+      + '<span style="font-size:13px;font-weight:600;color:var(--text2)">Letzte Einkäufe</span>'
+      + '<button onclick="openLog()" style="background:none;border:none;color:var(--text2);cursor:pointer;display:inline-flex;align-items:center;padding:0;margin-right:6px" title="Verlauf">'
+      + '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
+      + '</button></div></div>';
     return;
   }
 
-  const recent = history.slice(0, 2);
-  let html = '<div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden">'
-    + '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:0.5px solid var(--border)">'
+  list.innerHTML = '<div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden">'
+    + '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px">'
     + '<span style="font-size:13px;font-weight:600">Letzte Einkäufe</span>'
-    + '<button onclick="openLog()" style="background:none;border:none;color:var(--text2);cursor:pointer;display:inline-flex;align-items:center;padding:0" title="Verlauf">'
+    + '<button onclick="openLog()" style="background:none;border:none;color:var(--text2);cursor:pointer;display:inline-flex;align-items:center;padding:0;margin-right:6px" title="Verlauf">'
     + '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
-    + '</button>'
-    + '</div>';
-  recent.forEach(function(h){
-    const d = new Date(h.date);
-    const dateStr = d.toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'});
-    html += '<div class="shop-item" style="border-radius:0;border:none;border-bottom:0.5px solid var(--border);margin-bottom:0">'
-      + '<div style="font-size:22px;width:36px;text-align:center;flex-shrink:0">' + (CAT_EMOJI[h.cat]||'🛒') + '</div>'
-      + '<div class="shop-info">'
-        + '<div class="shop-name">' + escHtml(h.name) + '</div>'
-        + '<div class="shop-meta">' + dateStr + (h.note?' &middot; '+escHtml(h.note):'') + '</div>'
-      + '</div>'
-      + '<div class="shop-price">' + formatEuro(h.price) + '</div>'
-      + '<button class="shop-del" onclick="deleteItem('+h.id+')">&#10005;</button>'
-      + '</div>';
-  });
-  if(history.length > 2){
-    html += '<div style="text-align:center"><button onclick="openLog()" style="background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;padding:10px;font-family:\'DM Sans\',sans-serif">Alle '+history.length+' Einkäufe anzeigen</button></div>';
-  }
-  html += '</div>';
-  list.innerHTML = html;
+    + '</button></div></div>';
 }
 
 // ── Ausgaben ─────────────────────────────────────────────────────────────────
