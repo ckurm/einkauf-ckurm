@@ -32,6 +32,7 @@ header h1{font-size:21px;font-weight:600;letter-spacing:-0.3px}
 header p{font-size:12px;color:var(--text2);margin-top:2px}
 .hbtn{background:none;border:none;color:var(--text2);cursor:pointer;padding:0 4px;line-height:1;transition:color .2s;display:inline-flex;align-items:center}
 .hbtn:hover{color:var(--accent)}
+#settings-btn:hover{transform:rotate(60deg)}
 .header-btns{display:flex;gap:6px;align-items:center}
 .tabs{display:flex;border-top:0.5px solid var(--border)}
 .tab-btn{flex:1;padding:11px 2px;border:none;border-radius:0;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:color .2s;background:transparent;color:var(--text2);border-bottom:2px solid transparent;text-align:center}
@@ -154,6 +155,20 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
 .chart-bar{width:100%;background:rgba(124,110,245,0.3);border-radius:4px 4px 0 0;transition:height .4s ease;min-height:2px;cursor:pointer;position:relative}
 .chart-bar.current{background:rgba(124,110,245,0.8)}
 .chart-bar-label{font-size:9px;color:var(--text3);text-align:center;white-space:nowrap}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--border)}
+.setting-row:last-child{border-bottom:none}
+.setting-label{font-size:14px;font-weight:500}
+.setting-sub{font-size:12px;color:var(--text3);margin-top:2px}
+.toggle{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:var(--bg3);transition:.3s;border-radius:24px;border:0.5px solid var(--border2)}
+.toggle input:checked+.toggle-slider{background:var(--accent);border-color:var(--accent)}
+.toggle-slider:before{position:absolute;content:"";height:18px;width:18px;left:2px;bottom:2px;background:#fff;transition:.3s;border-radius:50%}
+.toggle input:checked+.toggle-slider:before{transform:translateX(20px)}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn-row .btn{margin-top:0;font-size:13px;padding:10px}
+.btn-export{background:rgba(96,165,250,0.12);color:var(--blue);border:0.5px solid rgba(96,165,250,0.25)}
+.btn-import{background:rgba(74,222,128,0.12);color:var(--green);border:0.5px solid rgba(74,222,128,0.25)}
 </style>
 </head>
 <body>
@@ -167,14 +182,8 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
       <p>Ausgaben im Überblick</p>
     </div>
     <div class="header-btns">
-      <button class="hbtn" onclick="openHelp()" title="Hilfe">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      </button>
-      <button class="hbtn" onclick="openSettings()" title="Einstellungen & Daten">
+      <button class="hbtn" onclick="openSettings()" title="Einstellungen" id="settings-btn" style="transition:transform .4s">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      </button>
-      <button class="hbtn" onclick="openResetConfirm()" title="Alle Daten löschen" style="color:#f87171">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
       </button>
       <button class="hbtn" onclick="toggleTheme()" title="Design" id="theme-btn">
         <svg id="icon-sun" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -182,6 +191,7 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
       </button>
     </div>
   </div>
+
 </header>
 
 <!-- LISTE TAB -->
@@ -248,34 +258,6 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
 </div>
 </div>
 
-<!-- Settings Overlay -->
-<div class="overlay" id="settings-overlay" onclick="if(event.target===this)closeSettings()">
-  <div class="overlay-box">
-    <div class="overlay-header">
-      <span class="overlay-title">Einstellungen</span>
-      <button class="overlay-close" onclick="closeSettings()">&#10005;</button>
-    </div>
-    <div class="card" style="margin-bottom:10px">
-      <div class="card-title">Wochenbudget</div>
-      <div class="input-row">
-        <input class="input-field" id="budget-input" type="text" placeholder="z.B. 100 €" readonly onclick="openNumpadBudget()" style="cursor:pointer;font-family:'DM Mono',monospace"/>
-        <button class="add-btn" onclick="saveBudget()" style="width:auto;padding:0 14px;font-size:13px;font-family:'DM Sans',sans-serif">OK</button>
-      </div>
-      <p class="hint">Erscheint als Fortschrittsbalken auf der Übersicht</p>
-    </div>
-    <div class="card">
-      <div class="card-title">Daten sichern</div>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6">Exportiere deine Einkaufsdaten oder importiere eine Sicherung.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <button class="btn btn-green" style="margin-top:0" onclick="document.getElementById('file-input').click()">Importieren</button>
-        <button class="btn btn-accent" style="margin-top:0;background:rgba(96,165,250,0.12);color:var(--blue);border:0.5px solid rgba(96,165,250,0.25)" onclick="exportData()">Exportieren</button>
-      </div>
-      <input type="file" id="file-input" accept=".json" onchange="importData(event)" style="display:none"/>
-      <p class="hint">Nur lokal auf deinem Gerät gespeichert</p>
-    </div>
-  </div>
-</div>
-
 <!-- History Overlay -->
 <div class="overlay" id="log-overlay" onclick="if(event.target===this)closeLog()">
   <div class="overlay-box" style="max-height:80vh;display:flex;flex-direction:column;padding-bottom:1.5rem">
@@ -292,27 +274,53 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
   </div>
 </div>
 
-<!-- Help Overlay -->
-<div class="overlay" id="help-overlay" onclick="if(event.target===this)closeHelp()">
+<!-- Settings Overlay -->
+<div class="overlay" id="settings-overlay" onclick="if(event.target===this)closeSettings()">
   <div class="overlay-box">
     <div class="overlay-header">
-      <span class="overlay-title">Anleitung</span>
-      <button class="overlay-close" onclick="closeHelp()">&#10005;</button>
+      <span class="overlay-title">Einstellungen</span>
+      <button class="overlay-close" onclick="closeSettings()">&#10005;</button>
     </div>
-    <div style="font-size:13px;color:var(--text2);line-height:1.8">
-      <b style="color:var(--text);display:block;margin-bottom:4px;margin-top:0">Einkauf eintragen</b>
-      Datum wählen (standard: heute), Geschäftsname eingeben, Betrag über das Numpad eingeben und optional eine Notiz hinzufügen. Dann auf „+ Eintragen" tippen. Ältere Einkäufe können durch Auswahl eines vergangenen Datums nachgetragen werden.<br><br>
-      <b style="color:var(--text);display:block;margin-bottom:4px">Betrag eingeben</b>
-      Tippe auf das Betrag-Feld um das Numpad zu öffnen. Dezimalstellen mit dem Komma-Button eingeben, z.B. 45,80. Mit ✓ Übernehmen bestätigen.<br><br>
-      <b style="color:var(--text);display:block;margin-bottom:4px">Letzte Einkäufe</b>
-      Auf der Liste werden die letzten 2 Einkäufe angezeigt. Über das Uhr-Symbol oben rechts öffnet sich der vollständige Verlauf. Im Verlauf kann nach Geschäft, Notiz oder Datum gesucht werden. Einzelne Einträge können mit ✕ gelöscht werden.<br><br>
-      <b style="color:var(--text);display:block;margin-bottom:4px">Ausgaben</b>
-      Im Reiter „Ausgaben" siehst du eine Übersicht nach Woche, Monat oder Jahr – mit Gesamtbetrag, Anzahl Einkäufe, Durchschnitt und einem Balkendiagramm.<br><br>
-      <b style="color:var(--text);display:block;margin-bottom:4px">Budget</b>
-      In den Einstellungen ein wöchentliches Budget setzen (Numpad). Auf der Liste erscheint dann ein Fortschrittsbalken mit dem verbleibenden Betrag und dem Gesamtbudget.<br><br>
-      <b style="color:var(--text);display:block;margin-bottom:4px">Daten sichern</b>
-      Unter Einstellungen → Daten sichern kannst du alle Einkäufe exportieren (JSON) und auf einem anderen Gerät wieder importieren. Die rote Mülltonne löscht alle Daten nach Bestätigung.
+
+    <div class="card" style="margin-bottom:10px">
+      <div class="card-title">Darstellung</div>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Dunkler Modus</div>
+          <div class="setting-sub">Dunkle Oberfläche aktivieren</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-dark" onchange="toggleDarkSwitch()">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
     </div>
+
+    <div class="card" style="margin-bottom:10px">
+      <div class="card-title">Wochenbudget</div>
+      <div class="input-row">
+        <input class="input-field" id="budget-input" type="text" placeholder="z.B. 100 €" readonly onclick="openNumpadBudget()" style="cursor:pointer;font-family:'DM Mono',monospace"/>
+        <button class="add-btn" onclick="saveBudget()" style="width:auto;padding:0 14px;font-size:13px;font-family:'DM Sans',sans-serif">OK</button>
+      </div>
+      <p class="hint">Erscheint als Fortschrittsbalken auf der Übersicht</p>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+        <span class="card-title" style="margin-bottom:0">Daten sichern</span>
+        <button onclick="openResetConfirm()" title="Alle Daten löschen" style="background:none;border:none;color:#f87171;cursor:pointer;padding:0 4px;display:inline-flex;align-items:center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        </button>
+      </div>
+      <p style="font-size:14px;color:var(--text2);margin-bottom:1rem;line-height:1.6">Exportiere deine Einkaufsdaten zur Sicherung. Beim Gerätewechsel einfach importieren.</p>
+      <div class="btn-row">
+        <button class="btn btn-import" onclick="document.getElementById('file-input').click()">Importieren</button>
+        <button class="btn btn-export" onclick="exportData()">Exportieren</button>
+      </div>
+      <input type="file" id="file-input" accept=".json" onchange="importData(event)" style="display:none"/>
+      <p class="hint">Daten werden nur lokal auf deinem Gerät gespeichert</p>
+    </div>
+
   </div>
 </div>
 
@@ -357,6 +365,8 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
   </div>
 </div>
 
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -388,20 +398,28 @@ activeCat = 'Supermarkt';
 document.getElementById('inp-date').value = todayStr();
 
 function applyTheme(){
-  document.body.classList.toggle('light', !darkMode);
+  document.body.classList.toggle('light',!darkMode);
+  const td=document.getElementById('toggle-dark');if(td)td.checked=darkMode;
   document.getElementById('icon-sun').style.display = darkMode ? 'block' : 'none';
   document.getElementById('icon-moon').style.display = darkMode ? 'none' : 'block';
 }
+function openSettings(){document.getElementById('settings-overlay').classList.add('show');const td=document.getElementById('toggle-dark');if(td)td.checked=darkMode;}
+function closeSettings(){document.getElementById('settings-overlay').classList.remove('show');}
+function toggleDarkSwitch(){
+  darkMode=document.getElementById('toggle-dark').checked;
+  localStorage.setItem('el_dark',darkMode);
+  applyTheme();
+}
 function toggleTheme(){
-  darkMode = !darkMode;
-  localStorage.setItem('el_dark', darkMode);
+  darkMode=!darkMode;
+  localStorage.setItem('el_dark',darkMode);
   applyTheme();
 }
 
 function switchTab(t){
-  document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
-  document.getElementById('tab-' + t).classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
   document.querySelectorAll('.tab-btn')[0].classList.add('active');
 }
 
@@ -764,10 +782,6 @@ function resetAll(){
 }
 function openResetConfirm(){ document.getElementById('reset-overlay').classList.add('show'); }
 function closeResetConfirm(){ document.getElementById('reset-overlay').classList.remove('show'); }
-function openSettings(){ document.getElementById('settings-overlay').classList.add('show'); }
-function closeSettings(){ document.getElementById('settings-overlay').classList.remove('show'); }
-function openHelp(){ document.getElementById('help-overlay').classList.add('show'); }
-function closeHelp(){ document.getElementById('help-overlay').classList.remove('show'); }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function formatEuro(n){ return (Math.round(n*100)/100).toFixed(2).replace('.',',')+' €'; }
