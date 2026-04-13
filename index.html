@@ -170,16 +170,17 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
       <button class="hbtn" onclick="openHelp()" title="Hilfe">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </button>
+      <button class="hbtn" onclick="openSettings()" title="Einstellungen & Daten">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+      <button class="hbtn" onclick="openResetConfirm()" title="Alle Daten löschen" style="color:#f87171">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+      </button>
       <button class="hbtn" onclick="toggleTheme()" title="Design" id="theme-btn">
         <svg id="icon-sun" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         <svg id="icon-moon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
       </button>
     </div>
-  </div>
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('liste')">Einkauf</button>
-    <button class="tab-btn" onclick="switchTab('ausgaben')">Ausgaben</button>
-    <button class="tab-btn" onclick="switchTab('einstellungen')">Einstellungen</button>
   </div>
 </header>
 
@@ -244,50 +245,35 @@ input[type="date"]{-webkit-appearance:none;appearance:none}
 </div>
 
 <!-- AUSGABEN TAB -->
-<div class="tab-content" id="tab-ausgaben">
-
-  <div class="period-tabs">
-    <button class="period-tab active" onclick="setPeriod('woche',this)">Woche</button>
-    <button class="period-tab" onclick="setPeriod('monat',this)">Monat</button>
-    <button class="period-tab" onclick="setPeriod('jahr',this)">Jahr</button>
-  </div>
-
-  <div id="ausgaben-content"></div>
-
+</div>
 </div>
 
-<!-- EINSTELLUNGEN TAB -->
-<div class="tab-content" id="tab-einstellungen">
-
-  <div class="card">
-    <div class="card-title">Budget</div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6">Setze ein wöchentliches Budget für deine Einkäufe.</p>
-    <div class="input-row">
-      <input class="input-field" id="budget-input" type="text" placeholder="z.B. 100" readonly onclick="openNumpadBudget()" style="cursor:pointer;font-family:'DM Mono',monospace"/>
-      <button class="add-btn" onclick="saveBudget()" style="width:auto;padding:0 14px;font-size:13px;font-family:'DM Sans',sans-serif">Speichern</button>
+<!-- Settings Overlay -->
+<div class="overlay" id="settings-overlay" onclick="if(event.target===this)closeSettings()">
+  <div class="overlay-box">
+    <div class="overlay-header">
+      <span class="overlay-title">Einstellungen</span>
+      <button class="overlay-close" onclick="closeSettings()">&#10005;</button>
     </div>
-    <p class="hint">Budget wird auf der Liste als Fortschrittsbalken angezeigt</p>
+    <div class="card" style="margin-bottom:10px">
+      <div class="card-title">Wochenbudget</div>
+      <div class="input-row">
+        <input class="input-field" id="budget-input" type="text" placeholder="z.B. 100 €" readonly onclick="openNumpadBudget()" style="cursor:pointer;font-family:'DM Mono',monospace"/>
+        <button class="add-btn" onclick="saveBudget()" style="width:auto;padding:0 14px;font-size:13px;font-family:'DM Sans',sans-serif">OK</button>
+      </div>
+      <p class="hint">Erscheint als Fortschrittsbalken auf der Übersicht</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Daten sichern</div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6">Exportiere deine Einkaufsdaten oder importiere eine Sicherung.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button class="btn btn-green" style="margin-top:0" onclick="document.getElementById('file-input').click()">Importieren</button>
+        <button class="btn btn-accent" style="margin-top:0;background:rgba(96,165,250,0.12);color:var(--blue);border:0.5px solid rgba(96,165,250,0.25)" onclick="exportData()">Exportieren</button>
+      </div>
+      <input type="file" id="file-input" accept=".json" onchange="importData(event)" style="display:none"/>
+      <p class="hint">Nur lokal auf deinem Gerät gespeichert</p>
+    </div>
   </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">Daten sichern</span>
-      <button onclick="openResetConfirm()" title="Alle Daten löschen" style="background:none;border:none;color:#f87171;cursor:pointer;padding:0 4px;display:inline-flex;align-items:center">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-      </button>
-    </div>
-    <p style="font-size:14px;color:var(--text2);margin-bottom:1rem;line-height:1.6">Exportiere deine Einkaufsdaten zur Sicherung.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="btn btn-green" style="margin-top:0" onclick="document.getElementById('file-input').click()">Importieren</button>
-      <button class="btn btn-accent" style="margin-top:0;background:rgba(96,165,250,0.12);color:var(--blue);border:0.5px solid rgba(96,165,250,0.25)" onclick="exportData()">Exportieren</button>
-    </div>
-    <input type="file" id="file-input" accept=".json" onchange="importData(event)" style="display:none"/>
-    <p class="hint">Daten werden nur lokal auf deinem Gerät gespeichert</p>
-  </div>
-
-</div>
-
-</div>
 </div>
 
 <!-- History Overlay -->
@@ -416,9 +402,7 @@ function switchTab(t){
   document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
   document.getElementById('tab-' + t).classList.add('active');
-  const idx = {liste:0, ausgaben:1, einstellungen:2}[t];
-  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
-  if(t === 'ausgaben') renderAusgaben();
+  document.querySelectorAll('.tab-btn')[0].classList.add('active');
 }
 
 // ── Category ─────────────────────────────────────────────────────────────────
@@ -780,6 +764,8 @@ function resetAll(){
 }
 function openResetConfirm(){ document.getElementById('reset-overlay').classList.add('show'); }
 function closeResetConfirm(){ document.getElementById('reset-overlay').classList.remove('show'); }
+function openSettings(){ document.getElementById('settings-overlay').classList.add('show'); }
+function closeSettings(){ document.getElementById('settings-overlay').classList.remove('show'); }
 function openHelp(){ document.getElementById('help-overlay').classList.add('show'); }
 function closeHelp(){ document.getElementById('help-overlay').classList.remove('show'); }
 
