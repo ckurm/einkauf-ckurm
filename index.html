@@ -411,6 +411,9 @@ let budget   = 0;
 let npVal    = '0';
 let npTarget = 'price';
 
+try{ history = JSON.parse(localStorage.getItem('el_history') || '[]'); }catch(e){}
+try{ budget  = parseFloat(localStorage.getItem('el_budget') || '0'); }catch(e){}
+
 function save(){ localStorage.setItem('el_history', JSON.stringify(history)); }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
